@@ -11,7 +11,8 @@ import java.util.Date;
 public class PositionExec {
 
     @Id
-    private float latitude;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Id
     private float longitude;
     @Temporal(TemporalType.TIMESTAMP)

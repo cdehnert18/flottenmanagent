@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 @Entity
 public class Route {
 
@@ -21,6 +22,7 @@ public class Route {
     public Route(String shortName,String description) {
         this.shortName=shortName;
         this.description=description;
+
     }
 
     public int getRouteId() {
