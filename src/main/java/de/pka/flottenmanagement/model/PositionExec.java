@@ -9,10 +9,8 @@ public class PositionExec {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Id
-    private float longitude;
-    @Temporal(TemporalType.TIMESTAMP)
+    private Long posExecId;
+
     private Date timeReached;
     private float positionDeviation;
 

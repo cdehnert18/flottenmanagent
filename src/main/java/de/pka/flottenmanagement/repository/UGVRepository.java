@@ -8,8 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UGVRepository extends CrudRepository<UGV, Long> {
 
-    UGV findByid(Long id);
+    UGV findByUgvId(Long ugvid);
 
-    @Query("select ugv from UGV where UGV.batteryLevel <= ?1")
-    List<UGV> findByBatteryLevelLower(Integer batteryLevel);
+    List<UGV> findByBatteryLevelLessThan(Integer batteryLevel);
 }
