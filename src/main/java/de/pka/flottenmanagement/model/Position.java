@@ -20,6 +20,9 @@ public class Position {
         this.longitude = longitude;
     }
 
+    public Position() {
+    }
+
     public float getLatitude() {
         return latitude;
     }
