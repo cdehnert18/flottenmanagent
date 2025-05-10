@@ -2,8 +2,8 @@ package de.pka.flottenmanagement;
 
 import de.pka.flottenmanagement.model.Position;
 import de.pka.flottenmanagement.repository.PositionRepository;
-import de.pka.flottenmanagement.model.UGV;
-import de.pka.flottenmanagement.repository.UGVRepository;
+import de.pka.flottenmanagement.model.Ugv;
+import de.pka.flottenmanagement.repository.UgvRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,12 +19,13 @@ public class FlottenmanagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FlottenmanagementApplication.class, args);
 	}
+	
 	@Bean
-	public CommandLineRunner demo(UGVRepository ugvRepo, PositionRepository posRepo) {
+	public CommandLineRunner demo(UgvRepository ugvRepo, PositionRepository posRepo) {
 		return (args) -> {
-			ugvRepo.save(new UGV("Speedster", 10, 100));
+			ugvRepo.save(new Ugv("Speedster", 10, 100));
 
-			for (UGV ugv : ugvRepo.findAll())
+			for (Ugv ugv : ugvRepo.findAll())
 				System.out.println(ugv);
 
 			posRepo.save(new Position(42, 69));
