@@ -1,18 +1,13 @@
 package de.pka.flottenmanagement.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 @RestController
-@RequestMapping("/api")
 public class TestController {
 
-
     @GetMapping
-    public int get40(){
+    public int get42(){
         return 42;
     }
 }
