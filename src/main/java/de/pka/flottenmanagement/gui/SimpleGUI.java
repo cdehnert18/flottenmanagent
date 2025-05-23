@@ -20,11 +20,11 @@ public class SimpleGUI extends JFrame {
         add(objectPanel3);
 
         // Starten der Bewegung der Objekte
-        Thread thread1 = new Thread(new MovingObject(objectPanel1));
+        Thread thread1 = new Thread(new UgvGUI(objectPanel1, 1));
         thread1.start();
-        Thread thread2 = new Thread(new MovingObject(objectPanel2));
+        Thread thread2 = new Thread(new UgvGUI(objectPanel2, 2));
         thread2.start();
-        Thread thread3 = new Thread(new MovingObject(objectPanel3));
+        Thread thread3 = new Thread(new UgvGUI(objectPanel3, 3));
         thread3.start();
 
         // Layout der GUI aktualisieren

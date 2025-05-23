@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    int a = 0;
+
     @GetMapping
     public int get42(){
-        return 42;
+        return a++;
     }
 }
