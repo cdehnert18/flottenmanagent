@@ -30,10 +30,15 @@ public class UgvController {
     @DeleteMapping()
     public boolean deleteUgv(@RequestParam int id) {
         Optional<Ugv> ugv = ugvRepository.findById((long) id);
-        if(ugv.isPresent()) {
+        if (ugv.isPresent()) {
             ugvRepository.delete(ugv.get());
             return true;
         }
         return false;
+    }
+
+    @GetMapping("/lowBattery")
+    public List<Ugv> getUgvsLowBattery(){
+        return ugvRepository.findByBatteryLevelLessThan(15);
     }
 }

@@ -25,6 +25,16 @@ public class SimpleGUI extends JFrame {
             int result = Integer.parseInt(response.body());
             System.out.println(result);
 
+            url = "http://localhost:8080/ugvs/get";
+
+            httpClient = HttpClient.newHttpClient();
+            httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+
+            response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            result = Integer.parseInt(response.body());
+            System.out.println(result);
+
             url = "http://localhost:8080/ugvs";
 
             httpClient = HttpClient.newHttpClient();
@@ -34,6 +44,16 @@ public class SimpleGUI extends JFrame {
 
             result = Integer.parseInt(response.body());
             System.out.println(result);
+
+            url = "http://localhost:8080/ugvs/lowBattery";
+
+            httpClient = HttpClient.newHttpClient();
+            httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+
+            response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            result = Integer.parseInt(response.body());
+            System.out.println(response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
