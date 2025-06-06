@@ -10,6 +10,7 @@ public class SimpleGUI extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         // Erstellen und Hinzufügen von beweglichen grafischen Objekten zur GUI
         ObjectPanel objectPanel1 = new ObjectPanel(Color.RED);
         ObjectPanel objectPanel2 = new ObjectPanel(Color.BLUE);
