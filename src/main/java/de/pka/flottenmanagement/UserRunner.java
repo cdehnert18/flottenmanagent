@@ -3,6 +3,8 @@ package de.pka.flottenmanagement;
 import java.util.List;
 import java.util.Optional;
 
+import de.pka.flottenmanagement.model.Mission;
+import de.pka.flottenmanagement.repository.MissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -17,11 +19,13 @@ public class UserRunner implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final TenantRepository tenantRepository;
+    private final MissionRepository missionRepository;
 
     @Autowired
-    public UserRunner(UserRepository userRepository, TenantRepository tenantRepository) {
+    public UserRunner(UserRepository userRepository, TenantRepository tenantRepository, MissionRepository missionRepository) {
         this.userRepository = userRepository;
         this.tenantRepository = tenantRepository;
+        this.missionRepository = missionRepository;
     }
 
     @Override
@@ -62,6 +66,11 @@ public class UserRunner implements CommandLineRunner {
 
         // Löschen eines Benutzers
         userRepository.delete(User2);
+
+        Mission missionA = new Mission("A", "BeispielmissionA", null);
+        Mission missionB = new Mission("B", "BeispielmissionB", null);
+        missionRepository.save(missionA);
+        missionRepository.save(missionB);
     }
     
 }

@@ -1,5 +1,8 @@
 package de.pka.flottenmanagement.gui;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.pka.flottenmanagement.model.Mission;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.*;
@@ -15,6 +18,8 @@ class UgvGUI implements Runnable {
     public UgvGUI(ObjectPanel objectPanel, int id) {
         this.objectPanel = objectPanel;
         this.id = id;
+
+        getJob();
     }
 
     @Override
@@ -30,7 +35,7 @@ class UgvGUI implements Runnable {
             int result = Integer.parseInt(response.body());
 
         } catch (Exception e) {
-
+            System.out.printf("UgvGui.run(): %s%n", e);
         }
         while (!goToHome()) {};
         while (!moveTo(40, 40)) {};
@@ -76,5 +81,36 @@ class UgvGUI implements Runnable {
 
     private boolean goToHome() {
         return moveTo(0, 0);
+    }
+
+    private boolean getJob() {
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            String uri = "http://localhost:8080/jobs?id=";
+            stringBuilder.append(uri);
+            stringBuilder.append(id);
+
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(stringBuilder.toString()))
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                ObjectMapper mapper = new ObjectMapper();
+                Mission mission = mapper.readValue(response.body(), Mission.class);
+
+                System.out.println("Meine Mission: " + mission.getShortName() + " " + mission.getDescription());
+                return true;
+            } else {
+                System.out.println("Fehler: Status " + response.statusCode());
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
