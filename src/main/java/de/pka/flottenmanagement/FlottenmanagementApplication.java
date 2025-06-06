@@ -28,7 +28,6 @@ public class FlottenmanagementApplication {
 			ugvRepo.save(new Ugv("Speedster2", 10, 100));
 			ugvRepo.save(new Ugv("Speedster3", 10, 100));
 
-
 			for (Ugv ugv : ugvRepo.findAll())
 				System.out.println(ugv);
 
