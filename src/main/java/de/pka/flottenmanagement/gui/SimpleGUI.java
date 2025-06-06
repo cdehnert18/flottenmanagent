@@ -27,6 +27,7 @@ public class SimpleGUI extends JFrame {
         Thread thread3 = new Thread(new UgvGUI(objectPanel3, 3));
         thread3.start();
 
+
         // Layout der GUI aktualisieren
         setLayout(new FlowLayout());
 

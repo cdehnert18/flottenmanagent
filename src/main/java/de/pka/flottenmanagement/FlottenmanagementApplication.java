@@ -24,9 +24,15 @@ public class FlottenmanagementApplication {
 	public CommandLineRunner demo(UgvRepository ugvRepo, PositionRepository posRepo) {
 		return (args) -> {
 			ugvRepo.save(new Ugv("Speedster", 10, 100));
+			ugvRepo.save(new Ugv("Speedster1", 10, 100));
+			ugvRepo.save(new Ugv("Speedster2", 10, 100));
+			ugvRepo.save(new Ugv("Speedster3", 10, 100));
+
 
 			for (Ugv ugv : ugvRepo.findAll())
 				System.out.println(ugv);
+
+
 
 			posRepo.save(new Position(42, 69));
 
