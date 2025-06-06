@@ -30,7 +30,7 @@ class UgvGUI implements Runnable {
             int result = Integer.parseInt(response.body());
 
         } catch (Exception e) {
-
+            System.out.printf("UgvGui.run(): %s%n", e);
         }
         while (!goToHome()) {};
         while (!moveTo(40, 40)) {};
