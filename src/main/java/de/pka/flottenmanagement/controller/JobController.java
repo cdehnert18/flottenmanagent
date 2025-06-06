@@ -19,7 +19,7 @@ public class JobController {
     MissionRepository missionRepository;
 
     @PostMapping
-    public ResponseEntity<Mission> assignMission(@RequestParam long id) {
+    public ResponseEntity<Mission> assignMission(@RequestParam(name = "id") long id) {
         Optional<Mission> m = (id % 2 == 0)
                 ? missionRepository.findById(1L)
                 : missionRepository.findById(2L);

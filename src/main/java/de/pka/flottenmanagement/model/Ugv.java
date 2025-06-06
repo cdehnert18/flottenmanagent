@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
@@ -22,7 +23,9 @@ public class Ugv {
     
     private float batteryLevel;
 
-    private Position position;
+    private float latitude;
+  
+    private float longitude;
 
     @ManyToOne
     @JoinColumn
@@ -36,14 +39,24 @@ public class Ugv {
         this.description = "";
         this.maxSpeed = 0;
         this.batteryLevel= 0;
-        this.position = new Position();
+        this.latitude = 0f;
+        this.longitude = 0f;
+    }
+
+    public Ugv(String description, float maxSpeed, float batteryLevel) {
+        this.description = description;
+        this.maxSpeed = maxSpeed;
+        this.batteryLevel = batteryLevel;
+        this.latitude = 0f;
+        this.longitude = 0f;
     }
 
     public Ugv(String description, float maxSpeed, float batteryLevel, Position position) {
         this.description = description;
         this.maxSpeed = maxSpeed;
         this.batteryLevel = batteryLevel;
-        this.position = position;
+        this.latitude = 0f;
+        this.longitude = 0f;
     }
 
     public long getId() {
@@ -62,7 +75,9 @@ public class Ugv {
         return batteryLevel;
     }
 
-    public Position getPosition() { return position; }
+    public double getLatitude() { return latitude; }
+
+    public double getLongitude() { return longitude; }
 
     @Override
     public String toString() {

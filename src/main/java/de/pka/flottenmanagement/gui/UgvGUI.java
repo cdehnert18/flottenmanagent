@@ -24,19 +24,6 @@ class UgvGUI implements Runnable {
 
     @Override
     public void run() {
-        try {
-            String url = new String("http://localhost:8080/");
-
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
-
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            int result = Integer.parseInt(response.body());
-
-        } catch (Exception e) {
-            System.out.printf("UgvGui.run(): %s%n", e);
-        }
         while (!goToHome()) {};
         while (!moveTo(40, 40)) {};
 

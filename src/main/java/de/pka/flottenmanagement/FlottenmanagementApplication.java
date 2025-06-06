@@ -23,6 +23,8 @@ public class FlottenmanagementApplication {
 	@Bean
 	public CommandLineRunner demo(UgvRepository ugvRepo, PositionRepository posRepo) {
 		return (args) -> {
+			posRepo.save(new Position(42, 69));
+			
 			ugvRepo.save(new Ugv("Speedster", 10, 100));
 			ugvRepo.save(new Ugv("Speedster1", 10, 100));
 			ugvRepo.save(new Ugv("Speedster2", 10, 100));
@@ -31,9 +33,6 @@ public class FlottenmanagementApplication {
 			for (Ugv ugv : ugvRepo.findAll())
 				System.out.println(ugv);
 
-
-
-			posRepo.save(new Position(42, 69));
 
 			for (Position pos : posRepo.findAll())
 				System.out.println(pos);

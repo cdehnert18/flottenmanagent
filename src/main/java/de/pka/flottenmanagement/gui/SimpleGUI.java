@@ -1,11 +1,18 @@
 package de.pka.flottenmanagement.gui;
 
 import javax.swing.*;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import de.pka.flottenmanagement.model.Ugv;
+
 import java.awt.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 public class SimpleGUI extends JFrame {
 
@@ -25,7 +32,7 @@ public class SimpleGUI extends JFrame {
             int result = Integer.parseInt(response.body());
             System.out.println(result);
 
-            url = "http://localhost:8080/ugvs/get";
+            url = "http://localhost:8080/ugvs";
 
             httpClient = HttpClient.newHttpClient();
             httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
@@ -46,14 +53,19 @@ public class SimpleGUI extends JFrame {
             System.out.println(result);
 
             url = "http://localhost:8080/ugvs/lowBattery";
-
-            httpClient = HttpClient.newHttpClient();
             httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
 
-            response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> res = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            String json = res.body();
 
-            result = Integer.parseInt(response.body());
-            System.out.println(response.body());
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            ArrayList<Ugv> ugvs = objectMapper.readValue(json, new TypeReference<ArrayList<Ugv>>() {});
+
+            // Ausgabe
+            for (Ugv ugv : ugvs) {
+                System.out.println(ugv);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
