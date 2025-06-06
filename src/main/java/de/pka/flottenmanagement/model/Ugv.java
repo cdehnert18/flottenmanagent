@@ -22,7 +22,7 @@ public class Ugv {
     
     private float batteryLevel;
 
-    Position position;
+    private Position position;
 
     @ManyToOne
     @JoinColumn
@@ -61,6 +61,8 @@ public class Ugv {
     public float getBatteryLevel() {
         return batteryLevel;
     }
+
+    public Position getPosition() { return position; }
 
     @Override
     public String toString() {
