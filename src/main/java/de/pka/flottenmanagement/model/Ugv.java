@@ -1,5 +1,6 @@
 package de.pka.flottenmanagement.model;
 
+import de.pka.flottenmanagement.repository.PositionRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,8 @@ public class Ugv {
     
     private float batteryLevel;
 
+    private Position position;
+
     @ManyToOne
     @JoinColumn
     private Tenant tenant;
@@ -33,12 +36,14 @@ public class Ugv {
         this.description = "";
         this.maxSpeed = 0;
         this.batteryLevel= 0;
+        this.position = new Position();
     }
 
-    public Ugv(String description, float maxSpeed, float batteryLevel) {
+    public Ugv(String description, float maxSpeed, float batteryLevel, Position position) {
         this.description = description;
         this.maxSpeed = maxSpeed;
         this.batteryLevel = batteryLevel;
+        this.position = position;
     }
 
     public long getId() {
@@ -56,6 +61,8 @@ public class Ugv {
     public float getBatteryLevel() {
         return batteryLevel;
     }
+
+    public Position getPosition() { return position; }
 
     @Override
     public String toString() {
