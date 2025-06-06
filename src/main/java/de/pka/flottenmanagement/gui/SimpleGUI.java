@@ -2,6 +2,10 @@ package de.pka.flottenmanagement.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class SimpleGUI extends JFrame {
 
@@ -10,6 +14,30 @@ public class SimpleGUI extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        try {
+            String url = new String("http://localhost:8080/ugvs");
+
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).POST(HttpRequest.BodyPublishers.noBody()).build();
+
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            int result = Integer.parseInt(response.body());
+            System.out.println(result);
+
+            url = "http://localhost:8080/ugvs";
+
+            httpClient = HttpClient.newHttpClient();
+            httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+
+            response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            result = Integer.parseInt(response.body());
+            System.out.println(result);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Erstellen und Hinzufügen von beweglichen grafischen Objekten zur GUI
         ObjectPanel objectPanel1 = new ObjectPanel(Color.RED);
