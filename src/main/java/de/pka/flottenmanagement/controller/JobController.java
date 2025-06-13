@@ -23,9 +23,7 @@ public class JobController {
 
     @PostMapping
     public ResponseEntity<Mission> assignMission(@RequestParam(name = "id") long id) {
-        Optional<Mission> m = (id % 2 == 0)
-                ? missionRepository.findById(1L)
-                : missionRepository.findById(2L);
+        Optional<Mission> m = missionRepository.findById(1L);
 
         return m.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
