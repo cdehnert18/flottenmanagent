@@ -27,6 +27,8 @@ public class Ugv {
   
     private float longitude;
 
+    private Position
+
     @ManyToOne
     @JoinColumn
     private Tenant tenant;
@@ -70,6 +72,8 @@ public class Ugv {
     public float getMaxSpeed() {
         return maxSpeed;
     }
+
+
 
     public float getBatteryLevel() {
         return batteryLevel;
