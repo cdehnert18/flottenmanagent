@@ -2,6 +2,7 @@ package de.pka.flottenmanagement.gui;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.pka.flottenmanagement.model.Mission;
+import de.pka.flottenmanagement.dto.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,19 +15,36 @@ class UgvGUI implements Runnable {
 
     private  int id;
     private ObjectPanel objectPanel; // Das grafische Objekt
+    private Long missionId;
+    private int longitudeDest;
+    private int latitudeDest;
 
     public UgvGUI(ObjectPanel objectPanel, int id) {
         this.objectPanel = objectPanel;
         this.id = id;
+        this.missionId = null;
 
-        getJob();
+        getMission();
     }
 
     @Override
     public void run() {
-        while (!goToHome()) {};
-        while (!moveTo(40, 40)) {};
+        while (!goToHome()) {
 
+        };
+        getMission();
+        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
+        while (!moveTo(this.latitudeDest,this.longitudeDest)){
+        };
+        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
+        while (!moveTo(this.latitudeDest,this.longitudeDest)){
+        };
+        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
+        while (!moveTo(this.latitudeDest,this.longitudeDest)){
+        };
+        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
+        while (!moveTo(this.latitudeDest,this.longitudeDest)){
+        };
     }
 
     private boolean moveTo(int x, int y) {
@@ -70,12 +88,12 @@ class UgvGUI implements Runnable {
         return moveTo(0, 0);
     }
 
-    private boolean getJob() {
+    private Mission getMission () {
         try {
             StringBuilder stringBuilder = new StringBuilder();
             String uri = "http://localhost:8080/jobs?id=";
             stringBuilder.append(uri);
-            stringBuilder.append(id);
+            stringBuilder.append(this.id);
 
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
@@ -88,8 +106,43 @@ class UgvGUI implements Runnable {
             if (response.statusCode() == 200) {
                 ObjectMapper mapper = new ObjectMapper();
                 Mission mission = mapper.readValue(response.body(), Mission.class);
-
+                this.missionId = mission.getId();
                 System.out.println("Meine Mission: " + mission.getShortName() + " " + mission.getDescription());
+                return mission;
+            } else {
+                System.out.println("Fehler: Status " + response.statusCode());
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private boolean getNextJob (int longitude, int langitude){
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            String uri = "http://localhost:8080/next?missionId=";
+            stringBuilder.append(uri);
+            stringBuilder.append(this.missionId);
+            stringBuilder.append(new String("&x="));
+            stringBuilder.append(this.objectPanel.getLocation().getX());
+            stringBuilder.append(new String("&y="));
+            stringBuilder.append(this.objectPanel.getLocation().getY());
+
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(stringBuilder.toString()))
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                ObjectMapper mapper = new ObjectMapper();
+                Coordinates coordinates = mapper.readValue(response.body(), Coordinates.class);
+                this.latitudeDest = coordinates.x();
+                this.longitudeDest = coordinates.y();
                 return true;
             } else {
                 System.out.println("Fehler: Status " + response.statusCode());

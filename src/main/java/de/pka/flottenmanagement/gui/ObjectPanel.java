@@ -18,4 +18,6 @@ class ObjectPanel extends JPanel {
         g.setColor(color);
         g.fillRect(0, 0, getWidth(), getHeight());
     }
+
+
 }
