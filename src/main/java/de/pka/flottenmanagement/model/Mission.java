@@ -60,4 +60,8 @@ public class Mission {
     public String getDescription() {
         return description;
     }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
 }

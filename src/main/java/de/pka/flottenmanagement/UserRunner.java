@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import de.pka.flottenmanagement.model.Mission;
+import de.pka.flottenmanagement.model.Position;
 import de.pka.flottenmanagement.repository.MissionRepository;
+import de.pka.flottenmanagement.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,57 +22,40 @@ public class UserRunner implements CommandLineRunner {
     private final UserRepository userRepository;
     private final TenantRepository tenantRepository;
     private final MissionRepository missionRepository;
+    private final PositionRepository positionRepository;
 
-    @Autowired
-    public UserRunner(UserRepository userRepository, TenantRepository tenantRepository, MissionRepository missionRepository) {
+    public UserRunner(UserRepository userRepository, TenantRepository tenantRepository, MissionRepository missionRepository, PositionRepository positionRepository) {
         this.userRepository = userRepository;
         this.tenantRepository = tenantRepository;
         this.missionRepository = missionRepository;
+        this.positionRepository = positionRepository;
     }
 
     @Override
     public void run(String... args) {
-        userRepository.deleteAll();
-        Tenant tenant1 = new Tenant();
-        tenantRepository.save(tenant1);
 
+        Tenant demoFirma = new Tenant();
+        tenantRepository.save(demoFirma);
 
-        // Erstellung von Benutzern
-        User User1 = new User("Benutzer 1");
-        User1.setTenant(tenant1); // Hier muss die Klasse Tenant existieren
+        User demoUser = new User("DemoUser");
+        demoUser.setTenant(demoFirma);
+        userRepository.save(demoUser);
 
-        System.out.println("Zuordnung Tenant und User "+User1);
+        Mission demoMission = new Mission("shortDemoMission", "Das ist eine Demomission.", demoFirma);
+        missionRepository.save(demoMission);
 
-
-        User User2 = new User("Benutzer 2");
-        User2.setTenant(tenant1); // Hier muss die Klasse Tenant existieren
-
-        userRepository.save(User1);
-        userRepository.save(User2);
-
-        // Abfrage aller Benutzer
-        List<User> Users = (List<User>) userRepository.findAll();
-        Users.forEach(System.out::println);
-
-        // Abfrage eines Benutzers (Rückgabe kann auch null sein)
-        Optional<User> user = userRepository.findById(1L);
-        System.out.println(user);
-
-        // Aktualisierung eines Benutzers
-        user.get().setUserName("Benutzer 1 aktualisiert");
-        userRepository.save(user.get()); // Hier wird save() verwendet, um den Benutzer zu aktualisieren
-
-        // Abfrage des aktualisierten Benutzers
-        user = userRepository.findById(1L);
-        System.out.println(user);
-
-        // Löschen eines Benutzers
-        userRepository.delete(User2);
-
-        Mission missionA = new Mission("A", "BeispielmissionA", null);
-        Mission missionB = new Mission("B", "BeispielmissionB", null);
-        missionRepository.save(missionA);
-        missionRepository.save(missionB);
+        Position posA = new Position(20, 20);
+        Position posB = new Position(60, 20);
+        Position posC = new Position(60, 60);
+        Position posD = new Position(20, 60);
+        posA.setMission(demoMission);
+        posB.setMission(demoMission);
+        posC.setMission(demoMission);
+        posD.setMission(demoMission);
+        positionRepository.save(posA);
+        positionRepository.save(posB);
+        positionRepository.save(posC);
+        positionRepository.save(posD);
     }
     
 }
