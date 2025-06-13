@@ -27,8 +27,6 @@ public class Ugv {
   
     private float longitude;
 
-    private Position
-
     @ManyToOne
     @JoinColumn
     private Tenant tenant;

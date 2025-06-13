@@ -32,7 +32,6 @@ class UgvGUI implements Runnable {
         while (!goToHome()) {
 
         };
-        getMission();
         getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
         while (!moveTo(this.latitudeDest,this.longitudeDest)){
         };
@@ -95,20 +94,33 @@ class UgvGUI implements Runnable {
             stringBuilder.append(uri);
             stringBuilder.append(this.id);
 
+            System.out.println(stringBuilder.toString());
+
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(stringBuilder.toString()))
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
 
+            System.out.println("AAA");
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            System.out.println("BBB");
 
             if (response.statusCode() == 200) {
-                ObjectMapper mapper = new ObjectMapper();
-                Mission mission = mapper.readValue(response.body(), Mission.class);
-                this.missionId = mission.getId();
-                System.out.println("Meine Mission: " + mission.getShortName() + " " + mission.getDescription());
-                return mission;
+
+                System.out.println("CCC");
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    Mission mission = mapper.readValue(response.body(), Mission.class);
+                    this.missionId = mission.getId();
+                    System.out.println("Meine Mission: " + mission.getShortName() + " " + mission.getDescription());
+                    return mission;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                System.out.println("DDD");
+
+
             } else {
                 System.out.println("Fehler: Status " + response.statusCode());
                 return null;
@@ -117,18 +129,21 @@ class UgvGUI implements Runnable {
             e.printStackTrace();
             return null;
         }
+        return null;
     }
 
     private boolean getNextJob (int longitude, int langitude){
         try {
             StringBuilder stringBuilder = new StringBuilder();
-            String uri = "http://localhost:8080/next?missionId=";
+            String uri = "http://localhost:8080/jobs/next?missionId=";
             stringBuilder.append(uri);
             stringBuilder.append(this.missionId);
             stringBuilder.append(new String("&x="));
-            stringBuilder.append(this.objectPanel.getLocation().getX());
+            stringBuilder.append((int) this.objectPanel.getLocation().getX());
             stringBuilder.append(new String("&y="));
-            stringBuilder.append(this.objectPanel.getLocation().getY());
+            stringBuilder.append((int) this.objectPanel.getLocation().getY());
+
+            System.out.println(stringBuilder.toString());
 
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()

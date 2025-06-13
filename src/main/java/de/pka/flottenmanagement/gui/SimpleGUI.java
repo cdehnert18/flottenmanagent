@@ -21,56 +21,6 @@ public class SimpleGUI extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        try {
-            String url = new String("http://localhost:8080/ugvs");
-
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).POST(HttpRequest.BodyPublishers.noBody()).build();
-
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            int result = Integer.parseInt(response.body());
-            System.out.println(result);
-
-            url = "http://localhost:8080/ugvs";
-
-            httpClient = HttpClient.newHttpClient();
-            httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
-
-            response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            result = Integer.parseInt(response.body());
-            System.out.println(result);
-
-            url = "http://localhost:8080/ugvs";
-
-            httpClient = HttpClient.newHttpClient();
-            httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
-
-            response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            result = Integer.parseInt(response.body());
-            System.out.println(result);
-
-            url = "http://localhost:8080/ugvs/lowBattery";
-            httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
-
-            HttpResponse<String> res = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            String json = res.body();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            ArrayList<Ugv> ugvs = objectMapper.readValue(json, new TypeReference<ArrayList<Ugv>>() {});
-
-            // Ausgabe
-            for (Ugv ugv : ugvs) {
-                System.out.println(ugv);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         // Erstellen und Hinzufügen von beweglichen grafischen Objekten zur GUI
         ObjectPanel objectPanel1 = new ObjectPanel(Color.RED);
         ObjectPanel objectPanel2 = new ObjectPanel(Color.BLUE);
