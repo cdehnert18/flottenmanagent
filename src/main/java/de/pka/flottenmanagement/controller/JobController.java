@@ -53,6 +53,7 @@ public class JobController {
                     }
                 }
             }
+            return ResponseEntity.ok(new  Coordinates((int) mission.getPositions().get(0).getLatitude(), (int) mission.getPositions().get(0).getLongitude()));
         }
 
         return ResponseEntity.notFound().build(); // Mission oder Position nicht gefunden
