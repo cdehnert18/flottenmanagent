@@ -7,6 +7,7 @@ import de.pka.flottenmanagement.repository.MissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class JobController {
         return m.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/next")
+    @PutMapping
     public ResponseEntity<Coordinates> getNextCoordinates(
             @RequestParam(name = "missionId") long missionId,
             @RequestParam(name = "x") int currentX,
@@ -49,11 +50,12 @@ public class JobController {
                         return ResponseEntity.ok(coordinates);
                     } else {
                         // Es gibt keine nächste Position
+                        System.out.println("Ende");
                         return ResponseEntity.notFound().build();
                     }
                 }
             }
-            return ResponseEntity.ok(new  Coordinates((int) mission.getPositions().get(0).getLatitude(), (int) mission.getPositions().get(0).getLongitude()));
+            return ResponseEntity.ok(new Coordinates((int) mission.getPositions().get(0).getLatitude(), (int) mission.getPositions().get(0).getLongitude()));
         }
 
         return ResponseEntity.notFound().build(); // Mission oder Position nicht gefunden

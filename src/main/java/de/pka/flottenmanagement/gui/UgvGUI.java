@@ -29,26 +29,14 @@ class UgvGUI implements Runnable {
 
     @Override
     public void run() {
-        while (!goToHome()) {
-
-        };
-        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
-        while (!moveTo(this.latitudeDest,this.longitudeDest)){
-        };
-        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
-        while (!moveTo(this.latitudeDest,this.longitudeDest)){
-        };
-        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
-        while (!moveTo(this.latitudeDest,this.longitudeDest)){
-        };
-        getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
-        while (!moveTo(this.latitudeDest,this.longitudeDest)){
-        };
+        goToHome();
+        performJob();
+        goToHome();
     }
 
     private boolean moveTo(int x, int y) {
         Point currentPosition = objectPanel.getLocation();
-        if (Math.abs(currentPosition.x - x) <= 5 && Math.abs(currentPosition.y - y) <= 5) {
+        if (Math.abs(currentPosition.x - x) < 1 && Math.abs(currentPosition.y - y) < 1) {
             SwingUtilities.invokeLater(() -> objectPanel.setLocation(x, y));
             return true;
         }
@@ -61,14 +49,7 @@ class UgvGUI implements Runnable {
         double normX = dirX / length;
         double normY = dirY / length;
 
-        if (currentPosition.x + (int)normX <= 0 || currentPosition.x + (int)normX >= objectPanel.getParent().getWidth() - objectPanel.getWidth()) {
-            normX = -normX;
-        }
-        if (currentPosition.y + (int)normY <= 0 || currentPosition.y + (int)normY >= objectPanel.getParent().getHeight() - objectPanel.getHeight()) {
-            normY = -normY;
-        }
-
-        int step = 5; // or any small positive value
+        int step = 2; // or any small positive value
         int newX = currentPosition.x + (int)(normX * step);
         int newY = currentPosition.y + (int)(normY * step);
 
@@ -83,8 +64,16 @@ class UgvGUI implements Runnable {
         return false;
     }
 
-    private boolean goToHome() {
-        return moveTo(0, 0);
+    private void goToHome() {
+        while (!moveTo(1,1)){};
+    }
+
+    private void performJob() {
+        while(true) {
+            boolean jobRunning = getNextJob(this.objectPanel.getX(),this.objectPanel.getY());
+            if(!jobRunning) break;
+            while (!moveTo(this.latitudeDest,this.longitudeDest)){};
+        }
     }
 
     private Mission getMission () {
@@ -94,21 +83,15 @@ class UgvGUI implements Runnable {
             stringBuilder.append(uri);
             stringBuilder.append(this.id);
 
-            System.out.println(stringBuilder.toString());
-
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(stringBuilder.toString()))
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
 
-            System.out.println("AAA");
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            System.out.println("BBB");
 
             if (response.statusCode() == 200) {
-
-                System.out.println("CCC");
                 try {
                     ObjectMapper mapper = new ObjectMapper();
                     Mission mission = mapper.readValue(response.body(), Mission.class);
@@ -118,7 +101,6 @@ class UgvGUI implements Runnable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                System.out.println("DDD");
 
 
             } else {
@@ -135,7 +117,7 @@ class UgvGUI implements Runnable {
     private boolean getNextJob (int longitude, int langitude){
         try {
             StringBuilder stringBuilder = new StringBuilder();
-            String uri = "http://localhost:8080/jobs/next?missionId=";
+            String uri = "http://localhost:8080/jobs?missionId=";
             stringBuilder.append(uri);
             stringBuilder.append(this.missionId);
             stringBuilder.append(new String("&x="));
@@ -143,12 +125,10 @@ class UgvGUI implements Runnable {
             stringBuilder.append(new String("&y="));
             stringBuilder.append((int) this.objectPanel.getLocation().getY());
 
-            System.out.println(stringBuilder.toString());
-
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(stringBuilder.toString()))
-                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .PUT(HttpRequest.BodyPublishers.noBody())
                     .build();
 
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
