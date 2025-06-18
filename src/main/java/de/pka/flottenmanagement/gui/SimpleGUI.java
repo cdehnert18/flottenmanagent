@@ -1,18 +1,7 @@
 package de.pka.flottenmanagement.gui;
 
 import javax.swing.*;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import de.pka.flottenmanagement.model.Ugv;
-
 import java.awt.*;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
 
 public class SimpleGUI extends JFrame {
 

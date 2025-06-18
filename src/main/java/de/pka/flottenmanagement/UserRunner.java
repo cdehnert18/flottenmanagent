@@ -1,13 +1,9 @@
 package de.pka.flottenmanagement;
 
-import java.util.List;
-import java.util.Optional;
-
 import de.pka.flottenmanagement.model.Mission;
 import de.pka.flottenmanagement.model.Position;
 import de.pka.flottenmanagement.repository.MissionRepository;
 import de.pka.flottenmanagement.repository.PositionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

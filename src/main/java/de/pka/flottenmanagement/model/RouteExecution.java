@@ -17,10 +17,6 @@ public class RouteExecution {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private float currentLatitude;
-    
-    private float currentLongitude;
-    
     private Date timeReached;
 
     private float positionDeviation;

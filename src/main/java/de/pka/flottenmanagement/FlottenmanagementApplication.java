@@ -1,11 +1,7 @@
 package de.pka.flottenmanagement;
 
-import de.pka.flottenmanagement.model.Position;
 import de.pka.flottenmanagement.repository.PositionRepository;
-import de.pka.flottenmanagement.model.Ugv;
 import de.pka.flottenmanagement.repository.UgvRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class FlottenmanagementApplication {
 
-	private static final Logger log = LoggerFactory.getLogger(FlottenmanagementApplication.class);
+	// private static final Logger log = LoggerFactory.getLogger(FlottenmanagementApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(FlottenmanagementApplication.class, args);
