@@ -140,7 +140,7 @@ class UgvGUI implements Runnable {
                 this.longitudeDest = coordinates.y();
                 return true;
             } else {
-                System.out.println("Fehler: Status " + response.statusCode());
+                System.out.println(response.statusCode() + ": Keine neue Position in Route gefunden - Route abgeschlossen");
                 return false;
             }
         } catch (Exception e) {
