@@ -50,7 +50,6 @@ public class JobController {
                         return ResponseEntity.ok(coordinates);
                     } else {
                         // Es gibt keine nächste Position
-                        System.out.println("Ende");
                         return ResponseEntity.notFound().build();
                     }
                 }
