@@ -30,6 +30,8 @@ public class UserRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
+
+
         Tenant demoFirma = new Tenant();
         tenantRepository.save(demoFirma);
 
@@ -37,21 +39,58 @@ public class UserRunner implements CommandLineRunner {
         demoUser.setTenant(demoFirma);
         userRepository.save(demoUser);
 
-        Mission demoMission = new Mission("shortDemoMission", "Das ist eine Demomission.", demoFirma);
-        missionRepository.save(demoMission);
+        // Missionsplanung Rot
+        Mission mission = new Mission("shortMission1", "Das ist eine Mission1.", demoFirma);
+        missionRepository.save(mission);
 
         Position posA = new Position(20, 20);
         Position posB = new Position(60, 20);
         Position posC = new Position(60, 60);
         Position posD = new Position(20, 60);
-        posA.setMission(demoMission);
-        posB.setMission(demoMission);
-        posC.setMission(demoMission);
-        posD.setMission(demoMission);
+        posA.setMission(mission);
+        posB.setMission(mission);
+        posC.setMission(mission);
+        posD.setMission(mission);
         positionRepository.save(posA);
         positionRepository.save(posB);
         positionRepository.save(posC);
         positionRepository.save(posD);
+
+        // Missionsplanung Blau
+        mission = new Mission("shortMission2", "Das ist eine Mission2.", demoFirma);
+        missionRepository.save(mission);
+
+        posA = new Position(40, 40);
+        posB = new Position(100, 70);
+        posC = new Position(60, 60);
+        posD = new Position(95, 15);
+        posA.setMission(mission);
+        posB.setMission(mission);
+        posC.setMission(mission);
+        posD.setMission(mission);
+        positionRepository.save(posA);
+        positionRepository.save(posB);
+        positionRepository.save(posC);
+        positionRepository.save(posD);
+
+        // Missionsplanung Grün
+        mission = new Mission("shortMission3", "Das ist eine Mission3.", demoFirma);
+        missionRepository.save(mission);
+
+        posA = new Position(30, 40);
+        posB = new Position(110, 20);
+        posC = new Position(70, 10);
+        posD = new Position(45, 25);
+        posA.setMission(mission);
+        posB.setMission(mission);
+        posC.setMission(mission);
+        posD.setMission(mission);
+        positionRepository.save(posA);
+        positionRepository.save(posB);
+        positionRepository.save(posC);
+        positionRepository.save(posD);
+
+
     }
     
 }
